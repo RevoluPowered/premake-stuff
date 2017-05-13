@@ -2,8 +2,9 @@
 -- Tested with lua-5.3.4
 -- Created for use with premake5.
 -- Authored by Gordon Alexander MacPherson
-
+-- git ignore the build/ directory
 workspace "Lua"
+	location "build"
 	configurations { "Debug", "Release" }
 
 -- lua shared library
