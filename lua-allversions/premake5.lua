@@ -1,14 +1,15 @@
 -- Premake build script for Lua
--- Tested with lua-5.3.4
+-- Tested with lua-5.2.4 
 -- Created for use with premake5.
 -- Authored by Gordon Alexander MacPherson
+-- No warranty provided
 -- git ignore the build/ directory
 workspace "Lua"
 	location "build"
 	configurations { "Debug", "Release" }
 
 -- lua shared library
-project "lua53"
+project "lua52"
 	kind "SharedLib"
 	language "C"
 
@@ -21,7 +22,7 @@ project "lua53"
 		"src/luac.h",
 		"src/lua.h"
 	}
-
+	architecture "x86_64"
 	configuration "linux"
 		-- GCC requires you to manually link math.h
 		links { "m" }
@@ -43,20 +44,20 @@ project "lua53"
 project "lua"
 	kind "ConsoleApp"
 	language "C"
-
-	files { "**.h" }
+	links { "lua52" }
 
 	-- remove other project files for other things
 	files {
 		"src/lua.c",
+		"src/luaconf.h",
 		"src/lua.h"
 	}
-
+	architecture "x86_64"
 	configuration "linux"
 		-- GCC requires you to manually link math.h
 		links { "m" }
 
-	links( "lua53" )
+
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
@@ -71,9 +72,9 @@ project "lua"
 project "luac"
 	kind "ConsoleApp"
 	language "C"
-
+	links{ "lua52" }
 	files { "**.h", "**.c" }
-
+	architecture "x86_64"
 	-- remove other project files for other things
 	removefiles {
 		"src/lua.c",
@@ -84,7 +85,7 @@ project "luac"
 		-- GCC requires you to manually link math.h
 		links { "m" }
 
-	links( "lua53" )
+
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }
